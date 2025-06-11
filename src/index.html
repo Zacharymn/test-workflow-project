@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="User Profile Component - Multi-Profile Workflow Test">
   <title>User Profile Component</title>
+  <link rel="stylesheet" href="styles/navigation.css">
   <link rel="stylesheet" href="styles/userProfile.css">
 </head>
 <body>
   <main>
     <header>
+      <div id="navigation-container"></div>
       <h1>User Profile Component Demo</h1>
       <p>Testing multi-profile workflow system with vanilla JavaScript</p>
     </header>
@@ -35,6 +37,7 @@
   </main>
 
   <!-- Scripts -->
+  <script src="js/Navigation.js"></script>
   <script src="js/mockData.js"></script>
   <script src="js/UserProfile.js"></script>
   
@@ -43,6 +46,9 @@
     let currentProfile;
 
     function initializeApp() {
+      // Initialize navigation
+      new Navigation('navigation-container', 'home');
+      
       // Load the first user by default
       loadUser(1);
     }
