@@ -48,6 +48,7 @@
   </main>
 
   <!-- Scripts -->
+  <script src="js/globalNavigation.js"></script>
   <script src="js/Navigation.js"></script>
   <script src="js/mockData.js"></script>
   <script src="js/UserProfile.js"></script>
@@ -60,8 +61,8 @@
     let currentView = 'profile'; // 'profile' or 'list'
 
     function initializeApp() {
-      // Initialize navigation with updated pages
-      new Navigation('navigation-container', 'users');
+      // Initialize navigation with home as default
+      window.navigation = new Navigation('navigation-container', 'home');
       
       // Load the first user by default
       loadUser(1);
@@ -97,6 +98,10 @@
       document.getElementById('profile-view').style.display = 'block';
       document.getElementById('user-list-view').style.display = 'none';
       updatePageHeader('User Profile Component Demo', 'Testing individual user profile display');
+      // Update navigation active state
+      if (window.navigation) {
+        window.navigation.updateCurrentPage('home');
+      }
     }
 
     function showListView() {
@@ -104,6 +109,10 @@
       document.getElementById('profile-view').style.display = 'none';
       document.getElementById('user-list-view').style.display = 'block';
       updatePageHeader('Team Members Directory', 'Browse and manage team member profiles');
+      // Update navigation active state
+      if (window.navigation) {
+        window.navigation.updateCurrentPage('users');
+      }
     }
 
     function updatePageHeader(title, description) {
@@ -111,9 +120,11 @@
       document.getElementById('page-description').textContent = description;
     }
 
-    // Make functions available globally
+    // Make functions available globally for navigation
     window.loadUser = loadUser;
     window.showUserList = showUserList;
+    window.showProfileView = showProfileView;
+    window.showListView = showListView;
 
     // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', initializeApp);
