@@ -1,0 +1,182 @@
+/* User List Component Styles - Mobile First Responsive Design */
+
+/* User List Container */
+.user-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+.user-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.user-list__title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.user-list__controls {
+  display: flex;
+  gap: 8px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.user-list__view-toggle {
+  padding: 8px 16px;
+  border: none;
+  background-color: transparent;
+  color: #495057;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.user-list__view-toggle:hover {
+  background-color: #e9ecef;
+}
+
+.user-list__view-toggle--active {
+  background-color: #007bff;
+  color: white;
+}
+
+.user-list__view-toggle:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* List Container - Grid View (Default) */
+.user-list__container {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+}
+
+.user-list__container--grid {
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+.user-list__container--list {
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* User List Item */
+.user-list__item {
+  transition: transform 0.2s ease;
+}
+
+.user-list__item:hover {
+  transform: translateY(-2px);
+}
+
+.user-list__profile-container {
+  height: 100%;
+}
+
+/* List View Modifications */
+.user-list__container--list .user-profile {
+  max-width: none;
+  margin: 0;
+}
+
+/* Footer */
+.user-list__footer {
+  margin-top: 32px;
+  text-align: center;
+  padding-top: 24px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.user-list__count {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Responsive Design - Tablet */
+@media (min-width: 768px) {
+  .user-list {
+    padding: 32px;
+  }
+
+  .user-list__header {
+    margin-bottom: 32px;
+  }
+
+  .user-list__title {
+    font-size: 2rem;
+  }
+
+  .user-list__container--grid {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+}
+
+/* Responsive Design - Desktop */
+@media (min-width: 1024px) {
+  .user-list__container--grid {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1200px) {
+  .user-list__container--grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Loading State */
+.user-list--loading .user-list__container {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Empty State */
+.user-list__empty {
+  text-align: center;
+  padding: 48px 20px;
+  color: #666;
+}
+
+.user-list__empty h3 {
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .user-list__controls {
+    border: 2px solid #000;
+  }
+
+  .user-list__view-toggle--active {
+    background-color: #000;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .user-list__item,
+  .user-list__view-toggle {
+    transition: none;
+  }
+
+  .user-list__item:hover {
+    transform: none;
+  }
+}
