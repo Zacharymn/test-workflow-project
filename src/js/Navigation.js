@@ -4,6 +4,7 @@ class Navigation {
     this.currentPage = currentPage;
     this.menuItems = [
       { label: 'Home', href: 'index.html', id: 'home' },
+      { label: 'User List', action: 'showUserList()', id: 'users' },
       { label: 'About Us', href: 'about-us.html', id: 'about' }
     ];
     this.render();
@@ -39,13 +40,25 @@ class Navigation {
         const activeClass = isActive ? 'nav-item--active' : '';
         const ariaCurrent = isActive ? 'aria-current="page"' : '';
         
-        return `
-          <li class="nav-item ${activeClass}" role="menuitem">
-            <a href="${item.href}" class="nav-link" ${ariaCurrent}>
-              ${item.label}
-            </a>
-          </li>
-        `;
+        if (item.action) {
+          // Render as button for JavaScript actions
+          return `
+            <li class="nav-item ${activeClass}" role="menuitem">
+              <button type="button" onclick="${item.action}" class="nav-link nav-link--button" ${ariaCurrent}>
+                ${item.label}
+              </button>
+            </li>
+          `;
+        } else {
+          // Render as link for navigation
+          return `
+            <li class="nav-item ${activeClass}" role="menuitem">
+              <a href="${item.href}" class="nav-link" ${ariaCurrent}>
+                ${item.label}
+              </a>
+            </li>
+          `;
+        }
       })
       .join('');
   }
