@@ -3,7 +3,6 @@ class UserList {
   constructor(containerId, users) {
     this.container = document.getElementById(containerId);
     this.users = users || [];
-    this.viewMode = 'grid'; // 'grid' or 'list'
     this.init();
   }
 
@@ -27,27 +26,9 @@ class UserList {
       <div class="user-list">
         <div class="user-list__header">
           <h2 class="user-list__title">Team Members</h2>
-          <div class="user-list__controls">
-            <button 
-              type="button" 
-              class="user-list__view-toggle ${this.viewMode === 'grid' ? 'user-list__view-toggle--active' : ''}" 
-              data-view="grid"
-              aria-label="Switch to grid view"
-            >
-              Grid
-            </button>
-            <button 
-              type="button" 
-              class="user-list__view-toggle ${this.viewMode === 'list' ? 'user-list__view-toggle--active' : ''}" 
-              data-view="list"
-              aria-label="Switch to list view"
-            >
-              List
-            </button>
-          </div>
         </div>
         
-        <div class="user-list__container user-list__container--${this.viewMode}">
+        <div class="user-list__container">
           ${this.users.map(user => this.createUserItemHtml(user)).join('')}
         </div>
         
@@ -61,47 +42,60 @@ class UserList {
   }
 
   createUserItemHtml(user) {
+    const { id, name, email, role, avatar } = user;
+    
     return `
-      <div class="user-list__item" data-user-id="${user.id}">
-        <div id="user-profile-${user.id}" class="user-list__profile-container">
-          <!-- UserProfile component will be rendered here -->
+      <div class="user-list__item" data-user-id="${id}">
+        <div class="user-list__avatar">
+          <img 
+            src="${avatar}" 
+            alt="Profile picture for ${name}"
+            class="user-list__avatar-img"
+          />
+        </div>
+        
+        <div class="user-list__info">
+          <h3 class="user-list__name">${this.sanitizeText(name)}</h3>
+          <p class="user-list__role">${this.sanitizeText(role)}</p>
+          <a 
+            href="mailto:${email}"
+            class="user-list__email"
+            aria-label="Send email to ${name}"
+          >
+            ${this.sanitizeText(email)}
+          </a>
+        </div>
+        
+        <div class="user-list__actions">
+          <button 
+            type="button"
+            class="user-list__button user-list__button--primary"
+            onclick="window.location.href='mailto:${email}'"
+            aria-label="Contact ${name}"
+          >
+            Contact
+          </button>
+          <button 
+            type="button"
+            class="user-list__button user-list__button--secondary"
+            onclick="alert('View profile functionality for ${name}')"
+            aria-label="View ${name}'s profile"
+          >
+            View Profile
+          </button>
         </div>
       </div>
     `;
   }
 
-  initializeUserProfiles() {
-    this.users.forEach(user => {
-      const containerId = `user-profile-${user.id}`;
-      new UserProfile(containerId, user);
-    });
+  sanitizeText(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   attachEventListeners() {
-    const viewButtons = this.container.querySelectorAll('.user-list__view-toggle');
-    viewButtons.forEach(button => {
-      button.addEventListener('click', (event) => this.handleViewToggle(event));
-    });
-  }
-
-  handleViewToggle(event) {
-    const newView = event.target.getAttribute('data-view');
-    if (newView !== this.viewMode) {
-      this.viewMode = newView;
-      this.updateViewMode();
-    }
-  }
-
-  updateViewMode() {
-    const container = this.container.querySelector('.user-list__container');
-    container.className = `user-list__container user-list__container--${this.viewMode}`;
-    
-    // Update button states
-    const buttons = this.container.querySelectorAll('.user-list__view-toggle');
-    buttons.forEach(button => {
-      const view = button.getAttribute('data-view');
-      button.classList.toggle('user-list__view-toggle--active', view === this.viewMode);
-    });
+    // No view toggle listeners needed - simplified to list-only format
   }
 
   addUser(userData) {
