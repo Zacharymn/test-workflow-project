@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="User Profile Component Demo - Interactive showcase of user profile display functionality">
+  <title>User Profile Demo - User Central</title>
+  <link rel="stylesheet" href="styles/navigation.css">
+  <link rel="stylesheet" href="styles/userProfile.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div id="navigation-container"></div>
+      <h1 id="page-title">User Profile Component Demo</h1>
+      <p id="page-description">Interactive showcase of individual user profile display</p>
+    </header>
+
+    <!-- Single Profile View -->
+    <section id="profile-view" class="page-view">
+      <div id="profile-container" aria-label="User profile display">
+        <!-- User profile component will be rendered here -->
+      </div>
+
+      <section id="demo-controls" aria-label="Demo controls">
+        <h2>Demo Controls</h2>
+        <div class="demo-buttons">
+          <button type="button" onclick="loadUser(1)" class="demo-button">
+            Load Sarah Chen
+          </button>
+          <button type="button" onclick="loadUser(2)" class="demo-button">
+            Load Marcus Rodriguez
+          </button>
+          <button type="button" onclick="loadUser(3)" class="demo-button">
+            Load Elena Petrov
+          </button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/Navigation.js"></script>
+  <script src="js/mockData.js"></script>
+  <script src="js/UserProfile.js"></script>
+  
+  <script>
+    // Application state
+    let currentProfile;
+
+    function initializeApp() {
+      // Initialize navigation with user-profile as current page
+      window.navigation = new Navigation('navigation-container', 'user-profile');
+      
+      // Load the first user by default
+      loadUser(1);
+    }
+
+    function loadUser(userId) {
+      const userData = getUserById(userId);
+      if (userData) {
+        const container = document.getElementById('profile-container');
+        if (currentProfile) {
+          currentProfile.updateUserData(userData);
+        } else {
+          currentProfile = createUserProfile('profile-container', userData);
+          setTimeout(() => {
+            container.classList.add('loaded');
+          }, 50);
+        }
+      } else {
+        console.error('User not found with ID:', userId);
+      }
+    }
+
+    // Make functions available globally
+    window.loadUser = loadUser;
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  </script>
+
+  <style>
+    /* Page-specific styles */
+    main {
+      padding-top: 0;
+      margin-top: 0;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    /* Prevent flash during initialization */
+    #profile-container {
+      min-height: 200px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    #profile-container.loaded {
+      opacity: 1;
+    }
+
+    #demo-controls {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    #demo-controls h2 {
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+
+    .demo-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .demo-button {
+      padding: 8px 16px;
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s ease;
+    }
+
+    .demo-button--primary {
+      background-color: #007bff;
+    }
+
+    .demo-button:hover {
+      background-color: #5a6268;
+    }
+
+    .demo-button--primary:hover {
+      background-color: #0056b3;
+    }
+
+    .demo-button:focus {
+      outline: 2px solid #007bff;
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .demo-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .demo-button {
+        width: 200px;
+      }
+    }
+  </style>
+</body>
+</html>

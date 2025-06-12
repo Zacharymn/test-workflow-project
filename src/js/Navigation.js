@@ -5,6 +5,7 @@ class Navigation {
     this.menuItems = [
       { label: 'Home', href: 'index.html', id: 'home' },
       { label: 'User List', href: 'index.html#users', id: 'users' },
+      { label: 'User Profile', href: 'user-profile.html', id: 'user-profile' },
       { label: 'About Us', href: 'about-us.html', id: 'about' }
     ];
     this.render();
@@ -16,7 +17,7 @@ class Navigation {
       <nav class="main-navigation" role="navigation" aria-label="Main Navigation">
         <div class="nav-container">
           <div class="nav-brand">
-            <h1 class="brand-title">Test Workflow</h1>
+            <h1 class="brand-title">User Central</h1>
           </div>
           <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
             <span class="hamburger-line"></span>
