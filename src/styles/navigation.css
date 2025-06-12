@@ -54,6 +54,13 @@
   font-size: inherit;
   width: 100%;
   text-align: left;
+  color: #bdc3c7;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease;
+  display: block;
 }
 
 .nav-link:hover {
