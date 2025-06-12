@@ -3,239 +3,162 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="User Profile and List Components - Multi-Profile Workflow Test">
-  <title>User Management System</title>
+  <meta name="description" content="User Central - Centralize your users here. Modern user management system.">
+  <title>User Central - Centralize Your Users</title>
   <link rel="stylesheet" href="styles/navigation.css">
-  <link rel="stylesheet" href="styles/userProfile.css">
+  <link rel="stylesheet" href="styles/home.css">
   <link rel="stylesheet" href="styles/userList.css">
 </head>
 <body>
-  <main>
-    <header>
-      <div id="navigation-container"></div>
-      <h1 id="page-title">User Management System</h1>
-      <p id="page-description">Testing multi-profile workflow system with vanilla JavaScript</p>
-    </header>
+  <header>
+    <div id="navigation-container"></div>
+  </header>
 
-    <!-- User List View -->
-    <section id="user-list-view" class="page-view" style="display: none;">
-      <div id="user-list-container" aria-label="Team members list">
-        <!-- User list component will be rendered here -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" aria-labelledby="hero-title">
+      <div class="hero-container">
+        <h1 id="hero-title" class="hero-title">User Central</h1>
+        <p class="hero-subtitle">Centralize your users here</p>
+        <div class="hero-cta">
+          <a href="index.html#users" class="cta-button cta-button--primary">View User List</a>
+          <a href="user-profile.html" class="cta-button cta-button--secondary">Try Demo</a>
+        </div>
       </div>
     </section>
 
-    <!-- Single Profile View -->
-    <section id="profile-view" class="page-view">
-      <div id="profile-container" aria-label="User profile display">
-        <!-- User profile component will be rendered here -->
-      </div>
-
-      <section id="demo-controls" aria-label="Demo controls">
-        <h2>Demo Controls</h2>
-        <div class="demo-buttons">
-          <button type="button" onclick="loadUser(1)" class="demo-button">
-            Load Sarah Chen
-          </button>
-          <button type="button" onclick="loadUser(2)" class="demo-button">
-            Load Marcus Rodriguez
-          </button>
-          <button type="button" onclick="loadUser(3)" class="demo-button">
-            Load Elena Petrov
-          </button>
+    <!-- Features Section -->
+    <section class="features-section" aria-labelledby="features-title">
+      <div class="features-container">
+        <h2 id="features-title" class="features-title">Key Features</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3 class="feature-card-title">User Management</h3>
+            <p class="feature-card-description">
+              Efficiently organize and manage your user base with our intuitive list interface.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3 class="feature-card-title">Modern Design</h3>
+            <p class="feature-card-description">
+              Clean, responsive interface that works seamlessly across all devices and screen sizes.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">♿</div>
+            <h3 class="feature-card-title">Accessibility First</h3>
+            <p class="feature-card-description">
+              WCAG 2.2 AA compliant design ensuring inclusive access for all users.
+            </p>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
+
+    <!-- Navigation/CTA Section -->
+    <section class="navigation-section" aria-labelledby="nav-title">
+      <div class="navigation-container">
+        <h2 id="nav-title" class="navigation-title">Explore User Central</h2>
+        <div class="navigation-grid">
+          <a href="index.html#users" class="nav-card">
+            <h3 class="nav-card-title">User List</h3>
+            <p class="nav-card-description">Browse and manage team member profiles</p>
+            <span class="nav-card-arrow">→</span>
+          </a>
+          <a href="user-profile.html" class="nav-card">
+            <h3 class="nav-card-title">User Profile Demo</h3>
+            <p class="nav-card-description">Interactive user profile component showcase</p>
+            <span class="nav-card-arrow">→</span>
+          </a>
+          <a href="about-us.html" class="nav-card">
+            <h3 class="nav-card-title">About Us</h3>
+            <p class="nav-card-description">Learn more about our mission and team</p>
+            <span class="nav-card-arrow">→</span>
+          </a>
+        </div>
+      </div>
     </section>
   </main>
 
   <!-- Scripts -->
-  <script src="js/globalNavigation.js"></script>
   <script src="js/Navigation.js"></script>
   <script src="js/mockData.js"></script>
-  <script src="js/UserProfile.js"></script>
   <script src="js/UserList.js"></script>
   
   <script>
-    // Application state
-    let currentProfile;
+    // Application state for User List functionality
     let userList;
-    let currentView = 'profile'; // 'profile' or 'list'
 
     function initializeApp() {
-      // Initialize navigation with home as default
+      // Initialize navigation with home as current page
       window.navigation = new Navigation('navigation-container', 'home');
       
-      // Check URL hash to determine initial view
+      // Check URL hash for User List
       if (window.location.hash === '#users') {
         showUserList();
-      } else {
-        // Load the first user by default
-        loadUser(1);
-      }
-    }
-
-    function loadUser(userId) {
-      const userData = getUserById(userId);
-      if (userData) {
-        showProfileView();
-        const container = document.getElementById('profile-container');
-        if (currentProfile) {
-          currentProfile.updateUserData(userData);
-        } else {
-          currentProfile = createUserProfile('profile-container', userData);
-          setTimeout(() => {
-            container.classList.add('loaded');
-          }, 50);
-        }
-      } else {
-        console.error('User not found with ID:', userId);
       }
     }
 
     function showUserList() {
-      showListView();
+      // Create User List section if it doesn't exist
+      let userListSection = document.getElementById('user-list-section');
+      if (!userListSection) {
+        userListSection = document.createElement('section');
+        userListSection.id = 'user-list-section';
+        userListSection.className = 'user-list-section';
+        userListSection.innerHTML = '<div id="user-list-container" aria-label="Team members list"></div>';
+        document.querySelector('main').appendChild(userListSection);
+      }
+      
+      // Show User List and hide other sections
+      document.querySelectorAll('main > section').forEach(section => {
+        section.style.display = section.id === 'user-list-section' ? 'block' : 'none';
+      });
+      
+      // Initialize User List if not already created
       if (!userList) {
         userList = createUserList('user-list-container', getAllUsers());
       }
-    }
-
-    function showProfileView() {
-      currentView = 'profile';
-      document.getElementById('profile-view').style.display = 'block';
-      document.getElementById('user-list-view').style.display = 'none';
-      updatePageHeader('User Profile Component Demo', 'Testing individual user profile display');
-      // Update navigation active state
-      if (window.navigation) {
-        window.navigation.updateCurrentPage('home');
-      }
-    }
-
-    function showListView() {
-      currentView = 'list';
-      document.getElementById('profile-view').style.display = 'none';
-      document.getElementById('user-list-view').style.display = 'block';
-      updatePageHeader('Team Members Directory', 'Browse and manage team member profiles');
-      // Update navigation active state
+      
+      // Update navigation state
       if (window.navigation) {
         window.navigation.updateCurrentPage('users');
       }
     }
 
-    function updatePageHeader(title, description) {
-      document.getElementById('page-title').textContent = title;
-      document.getElementById('page-description').textContent = description;
+    function hideUserList() {
+      const userListSection = document.getElementById('user-list-section');
+      if (userListSection) {
+        userListSection.style.display = 'none';
+      }
+      
+      // Show all main sections
+      document.querySelectorAll('main > section:not(#user-list-section)').forEach(section => {
+        section.style.display = 'block';
+      });
+      
+      // Update navigation state
+      if (window.navigation) {
+        window.navigation.updateCurrentPage('home');
+      }
     }
 
-    // Make functions available globally for navigation
-    window.loadUser = loadUser;
-    window.showUserList = showUserList;
-    window.showProfileView = showProfileView;
-    window.showListView = showListView;
-
-    // Handle hash changes for navigation
+    // Handle hash changes
     window.addEventListener('hashchange', function() {
       if (window.location.hash === '#users') {
         showUserList();
       } else {
-        showProfileView();
+        hideUserList();
       }
     });
+
+    // Make functions available globally
+    window.showUserList = showUserList;
 
     // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', initializeApp);
   </script>
-
-  <style>
-    /* Page transition styles */
-    .page-view {
-      transition: opacity 0.3s ease;
-    }
-
-    /* Prevent flash during initialization */
-    #profile-container {
-      min-height: 200px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    #profile-container.loaded {
-      opacity: 1;
-    }
-    
-    main {
-      padding-top: 0;
-      margin-top: 0;
-    }
-    
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    header h1 {
-      color: #2c3e50;
-      margin-bottom: 0.5rem;
-    }
-
-    header p {
-      color: #666;
-      font-size: 1.1rem;
-    }
-
-    #demo-controls {
-      margin-top: 3rem;
-      text-align: center;
-    }
-
-    #demo-controls h2 {
-      color: #2c3e50;
-      margin-bottom: 1rem;
-    }
-
-    .demo-buttons {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .demo-button {
-      padding: 8px 16px;
-      background-color: #6c757d;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: background-color 0.2s ease;
-    }
-
-    .demo-button--primary {
-      background-color: #007bff;
-    }
-
-    .demo-button:hover {
-      background-color: #5a6268;
-    }
-
-    .demo-button--primary:hover {
-      background-color: #0056b3;
-    }
-
-    .demo-button:focus {
-      outline: 2px solid #007bff;
-      outline-offset: 2px;
-    }
-
-    @media (max-width: 768px) {
-      .demo-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .demo-button {
-        width: 200px;
-      }
-    }
-  </style>
 </body>
 </html>
