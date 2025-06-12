@@ -1,0 +1,243 @@
+/* User List Component Styles - Mobile First Responsive Design */
+
+/* User List Container */
+.user-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+.user-list__header {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.user-list__title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+/* List Container */
+.user-list__container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* User List Item */
+.user-list__item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+  gap: 16px;
+}
+
+.user-list__item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.user-list__item:last-child {
+  margin-bottom: 0;
+}
+
+/* Avatar */
+.user-list__avatar {
+  flex-shrink: 0;
+}
+
+.user-list__avatar-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+}
+
+/* User Info */
+.user-list__info {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.user-list__name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 4px 0;
+}
+
+.user-list__role {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 0 4px 0;
+}
+
+.user-list__email {
+  font-size: 0.85rem;
+  color: #007bff;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.user-list__email:hover {
+  text-decoration: underline;
+}
+
+/* Actions */
+.user-list__actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.user-list__button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.user-list__button--primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.user-list__button--primary:hover {
+  background-color: #0056b3;
+}
+
+.user-list__button--secondary {
+  background-color: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+
+.user-list__button--secondary:hover {
+  background-color: #e9ecef;
+}
+
+.user-list__button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Footer */
+.user-list__footer {
+  margin-top: 32px;
+  text-align: center;
+  padding-top: 24px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.user-list__count {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Responsive Design - Mobile */
+@media (max-width: 767px) {
+  .user-list__item {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .user-list__info {
+    text-align: center;
+  }
+
+  .user-list__actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .user-list__button {
+    flex: 1;
+    min-width: 100px;
+  }
+}
+
+/* Responsive Design - Tablet */
+@media (min-width: 768px) {
+  .user-list {
+    padding: 32px;
+  }
+
+  .user-list__header {
+    margin-bottom: 32px;
+  }
+
+  .user-list__title {
+    font-size: 2rem;
+  }
+
+  .user-list__avatar-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .user-list__name {
+    font-size: 1.2rem;
+  }
+
+  .user-list__role {
+    font-size: 1rem;
+  }
+
+  .user-list__email {
+    font-size: 0.9rem;
+  }
+}
+
+/* Loading State */
+.user-list--loading .user-list__container {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Empty State */
+.user-list__empty {
+  text-align: center;
+  padding: 48px 20px;
+  color: #666;
+}
+
+.user-list__empty h3 {
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .user-list__controls {
+    border: 2px solid #000;
+  }
+
+  .user-list__view-toggle--active {
+    background-color: #000;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .user-list__item,
+  .user-list__view-toggle {
+    transition: none;
+  }
+
+  .user-list__item:hover {
+    transform: none;
+  }
+}

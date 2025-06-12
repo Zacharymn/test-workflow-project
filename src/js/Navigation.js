@@ -4,6 +4,7 @@ class Navigation {
     this.currentPage = currentPage;
     this.menuItems = [
       { label: 'Home', href: 'index.html', id: 'home' },
+      { label: 'User List', href: 'index.html#users', id: 'users' },
       { label: 'About Us', href: 'about-us.html', id: 'about' }
     ];
     this.render();
@@ -93,5 +94,14 @@ class Navigation {
     this.currentPage = pageId;
     this.render();
     this.attachEventListeners();
+  }
+
+  // Add navigation method that can be called from anywhere
+  navigateToUserList() {
+    if (typeof window.showUserList === 'function') {
+      window.showUserList();
+    } else {
+      console.error('showUserList function not available');
+    }
   }
 }

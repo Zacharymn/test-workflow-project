@@ -3,65 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="User Profile Component - Multi-Profile Workflow Test">
-  <title>User Profile Component</title>
+  <meta name="description" content="User Profile and List Components - Multi-Profile Workflow Test">
+  <title>User Management System</title>
   <link rel="stylesheet" href="styles/navigation.css">
   <link rel="stylesheet" href="styles/userProfile.css">
+  <link rel="stylesheet" href="styles/userList.css">
 </head>
 <body>
   <main>
     <header>
       <div id="navigation-container"></div>
-      <h1>User Profile Component Demo</h1>
-      <p>Testing multi-profile workflow system with vanilla JavaScript</p>
+      <h1 id="page-title">User Management System</h1>
+      <p id="page-description">Testing multi-profile workflow system with vanilla JavaScript</p>
     </header>
 
-    <section id="profile-container" aria-label="User profile display">
-      <!-- User profile component will be rendered here -->
+    <!-- User List View -->
+    <section id="user-list-view" class="page-view" style="display: none;">
+      <div id="user-list-container" aria-label="Team members list">
+        <!-- User list component will be rendered here -->
+      </div>
     </section>
 
-    <section id="demo-controls" aria-label="Demo controls">
-      <h2>Demo Controls</h2>
-      <div class="demo-buttons">
-        <button type="button" onclick="loadUser(1)" class="demo-button">
-          Load Sarah Chen
-        </button>
-        <button type="button" onclick="loadUser(2)" class="demo-button">
-          Load Marcus Rodriguez
-        </button>
-        <button type="button" onclick="loadUser(3)" class="demo-button">
-          Load Elena Petrov
-        </button>
+    <!-- Single Profile View -->
+    <section id="profile-view" class="page-view">
+      <div id="profile-container" aria-label="User profile display">
+        <!-- User profile component will be rendered here -->
       </div>
+
+      <section id="demo-controls" aria-label="Demo controls">
+        <h2>Demo Controls</h2>
+        <div class="demo-buttons">
+          <button type="button" onclick="loadUser(1)" class="demo-button">
+            Load Sarah Chen
+          </button>
+          <button type="button" onclick="loadUser(2)" class="demo-button">
+            Load Marcus Rodriguez
+          </button>
+          <button type="button" onclick="loadUser(3)" class="demo-button">
+            Load Elena Petrov
+          </button>
+        </div>
+      </section>
     </section>
   </main>
 
   <!-- Scripts -->
+  <script src="js/globalNavigation.js"></script>
   <script src="js/Navigation.js"></script>
   <script src="js/mockData.js"></script>
   <script src="js/UserProfile.js"></script>
+  <script src="js/UserList.js"></script>
   
   <script>
-    // Initialize the application
+    // Application state
     let currentProfile;
+    let userList;
+    let currentView = 'profile'; // 'profile' or 'list'
 
     function initializeApp() {
-      // Initialize navigation
-      new Navigation('navigation-container', 'home');
+      // Initialize navigation with home as default
+      window.navigation = new Navigation('navigation-container', 'home');
       
-      // Load the first user by default
-      loadUser(1);
+      // Check URL hash to determine initial view
+      if (window.location.hash === '#users') {
+        showUserList();
+      } else {
+        // Load the first user by default
+        loadUser(1);
+      }
     }
 
     function loadUser(userId) {
       const userData = getUserById(userId);
       if (userData) {
+        showProfileView();
         const container = document.getElementById('profile-container');
         if (currentProfile) {
           currentProfile.updateUserData(userData);
         } else {
           currentProfile = createUserProfile('profile-container', userData);
-          // Add loaded class after a brief delay to allow rendering
           setTimeout(() => {
             container.classList.add('loaded');
           }, 50);
@@ -71,16 +91,65 @@
       }
     }
 
-    // Make loadUser available globally for demo buttons
+    function showUserList() {
+      showListView();
+      if (!userList) {
+        userList = createUserList('user-list-container', getAllUsers());
+      }
+    }
+
+    function showProfileView() {
+      currentView = 'profile';
+      document.getElementById('profile-view').style.display = 'block';
+      document.getElementById('user-list-view').style.display = 'none';
+      updatePageHeader('User Profile Component Demo', 'Testing individual user profile display');
+      // Update navigation active state
+      if (window.navigation) {
+        window.navigation.updateCurrentPage('home');
+      }
+    }
+
+    function showListView() {
+      currentView = 'list';
+      document.getElementById('profile-view').style.display = 'none';
+      document.getElementById('user-list-view').style.display = 'block';
+      updatePageHeader('Team Members Directory', 'Browse and manage team member profiles');
+      // Update navigation active state
+      if (window.navigation) {
+        window.navigation.updateCurrentPage('users');
+      }
+    }
+
+    function updatePageHeader(title, description) {
+      document.getElementById('page-title').textContent = title;
+      document.getElementById('page-description').textContent = description;
+    }
+
+    // Make functions available globally for navigation
     window.loadUser = loadUser;
+    window.showUserList = showUserList;
+    window.showProfileView = showProfileView;
+    window.showListView = showListView;
+
+    // Handle hash changes for navigation
+    window.addEventListener('hashchange', function() {
+      if (window.location.hash === '#users') {
+        showUserList();
+      } else {
+        showProfileView();
+      }
+    });
 
     // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', initializeApp);
   </script>
 
   <style>
-    /* Additional page styles */
-    
+    /* Page transition styles */
+    .page-view {
+      transition: opacity 0.3s ease;
+    }
+
     /* Prevent flash during initialization */
     #profile-container {
       min-height: 200px;
@@ -90,6 +159,11 @@
     
     #profile-container.loaded {
       opacity: 1;
+    }
+    
+    main {
+      padding-top: 0;
+      margin-top: 0;
     }
     
     header {
@@ -135,8 +209,16 @@
       transition: background-color 0.2s ease;
     }
 
+    .demo-button--primary {
+      background-color: #007bff;
+    }
+
     .demo-button:hover {
       background-color: #5a6268;
+    }
+
+    .demo-button--primary:hover {
+      background-color: #0056b3;
     }
 
     .demo-button:focus {

@@ -46,7 +46,25 @@
   display: block;
 }
 
-.nav-link:hover {
+.nav-link--button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  width: 100%;
+  text-align: left;
+  color: #bdc3c7;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.nav-link:hover,
+.nav-link--button:hover {
   color: #ecf0f1;
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -56,7 +74,8 @@
   background-color: rgba(52, 152, 219, 0.1);
 }
 
-.nav-item--active .nav-link:hover {
+.nav-item--active .nav-link:hover,
+.nav-item--active .nav-link--button:hover {
   color: #5dade2;
 }
 
