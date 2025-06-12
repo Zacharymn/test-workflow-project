@@ -64,8 +64,13 @@
       // Initialize navigation with home as default
       window.navigation = new Navigation('navigation-container', 'home');
       
-      // Load the first user by default
-      loadUser(1);
+      // Check URL hash to determine initial view
+      if (window.location.hash === '#users') {
+        showUserList();
+      } else {
+        // Load the first user by default
+        loadUser(1);
+      }
     }
 
     function loadUser(userId) {
@@ -125,6 +130,15 @@
     window.showUserList = showUserList;
     window.showProfileView = showProfileView;
     window.showListView = showListView;
+
+    // Handle hash changes for navigation
+    window.addEventListener('hashchange', function() {
+      if (window.location.hash === '#users') {
+        showUserList();
+      } else {
+        showProfileView();
+      }
+    });
 
     // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', initializeApp);
